@@ -12,36 +12,26 @@ import {AlertBox} from './AlertBox';
 export class BankApp extends React.Component {
     constructor(props) {
         super(props);
-        
-        this.state = { pin: '', 
-                       currentAccount: undefined, 
-                       transactionType: 's',
-                       transactionStatus: undefined };
-        
+        console.log(`Bank app ctor called`);
+        this.acctMap = {
+            '1111' : {balance: 400.00, limit: 200.00, today: 0.00},
+            '2222' : {balance: 200.00, limit: 100.00, today: 0.00},
+            '3333' : {balance: 300.00, limit: 50.00, today: 0.00}
+        };
+
+        this.state = { pin: '',
+            currentAccount: undefined,
+            transactionType: 's',
+            transactionStatus: undefined };
+
         this.handleLoginEvent = this.handleLoginEvent.bind(this);
         this.handleLogoutEvent = this.handleLogoutEvent.bind(this);
         this.handleDepositEvent = this.handleDepositEvent.bind(this);
         this.handleWithdrawalEvent = this.handleWithdrawalEvent.bind(this);
         this.handleBalanceQueryEvent = this.handleBalanceQueryEvent.bind(this);
         this.handleButtonClickEvent = this.handleButtonClickEvent.bind(this);
-        
-        console.log(`Bank app ctor called`);
+    };
 
-        this.acctMap = {
-            '1111' : {balance: 400.00, limit: 200.00, today: 0.00},
-            '2222' : {balance: 200.00, limit: 100.00, today: 0.00},
-            '3333' : {balance: 300.00, limit: 50.00, today: 0.00}
-        };
-    };
-    
-    componentDidMount() {
-        console.log(`Bank app did mount`);
-    };
-    
-    componentWillUnmount() {
-        console.log(`Bank app about to unmount`);
-    };
-    
     resetTransactionType() {
         this.setState({transactionType: 's'})
     }
@@ -52,13 +42,8 @@ export class BankApp extends React.Component {
 
     // if this routine is called we are logged in
     handleLoginEvent(pin) {
-        console.log(`handlePinChange called with pin: ${pin}`);
-
-        console.log(`balance is ${this.acctMap.pin}`);
+        console.log(`handle login event called`);
         this.setState({ pin: pin, currentAccount: this.acctMap[pin] });
-
-        console.log(`${util.inspect(this.state.currentAccount,{depth:4})}`);
-
     };
     
     handleLogoutEvent(event) {
@@ -74,20 +59,17 @@ export class BankApp extends React.Component {
         this.setState((prevState) =>
             ({ currentAccount:
                 { balance: (prevState.currentAccount.balance + amount)}}));
+
         this.resetTransactionType();
         this.setTransactionState(Status.SUCCESS);
-
-        console.log(`state after deposit: ${util.inspect(this.state,{depth:3})}`);
     }
 
     handleWithdrawalEvent(amount) {
+
         console.log(`handle withdrawal event called with amount: ${amount}`);
-
-        console.log(`checking limit: ${this.state.currentAccount.today} ${this.state.currentAccount.limit}`)
-
         if (this.state.currentAccount.today + amount > this.state.currentAccount.limit) {
-            console.log(`daily limit of ${this.state.currentAccount.today} would be exceeded with this transaction. Denied!`);
-            this.setState({transactionType:''});
+            this.resetTransactionType();
+            this.setTransactionState(Status.FAILURE);
             return;
         }
 
@@ -95,17 +77,19 @@ export class BankApp extends React.Component {
             ({currentAccount:
                 {balance: (prevState.currentAccount.balance - amount),
                     today: (prevState.currentAccount.today + amount),
-                    limit: (prevState.currentAccount.limit)},
-                transactionType: ''
+                    limit: (prevState.currentAccount.limit)}
             }));
-        console.log(`state after withdrawal: ${util.inspect(this.state,{depth:3})}`);
+
+        this.resetTransactionType();
+        this.setTransactionState(Status.SUCCESS);
     }
     
     handleBalanceQueryEvent(event) {
         event.preventDefault();
         console.log(`handle balance query event called`);
-        console.log(`state at balance query: ${util.inspect(this.state,{depth:3})}`);
-        this.setState({transactionType:''});
+
+        this.resetTransactionType();
+        this.resetTransactionState(Status.IDLE);
     }
 
     handleButtonClickEvent(event) {
@@ -115,8 +99,6 @@ export class BankApp extends React.Component {
     }
 
     render() {
-        console.log(`this.state.pin value: ${util.inspect(this.state,{depth:2})}`);
-        console.log(`this.transactionType value: ${this.transactionType}`);
 
         if (this.state.currentAccount === undefined) {
             return (
@@ -158,8 +140,6 @@ export class BankApp extends React.Component {
 
             let buttonForm = navButtons;
             let buttonElement = null;
-
-            console.log(`rendering with transactionType: ${this.state.transactionType}`);
 
             if (this.state.transactionType === 'd') {
                 buttonForm = navButtons;
