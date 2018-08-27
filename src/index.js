@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {BankApp} from './BankApp';
+import {Bank} from './Bank';
 
 ReactDOM.render(
-    <BankApp />,
+    <Bank />,
     document.getElementById("app")
 );

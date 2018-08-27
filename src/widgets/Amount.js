@@ -23,7 +23,7 @@ export class Amount extends React.Component {
         if (val.match(/\d{0,4}\.\d{2}/)) {
             this.props.updateHandler(Number(val));
         } else {
-            console.log(`Bad input, resetting to empty`);
+            console.log(`Bad input ${val}, resetting to empty`);
         }
     }
 

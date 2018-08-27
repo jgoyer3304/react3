@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import React from 'react';
 import util from 'util';
-import {Button} from './Button';
+import {Button} from './widgets/Button';
 
 export class Login extends React.Component {
 
@@ -14,7 +14,7 @@ export class Login extends React.Component {
     }
 
     handleLoginEvent(event) {
-        console.log(`handleLoginEvent called with value: ${event.target.value}`);
+        //console.log(`handleLoginEvent called with value: ${event.target.value}`);
         event.preventDefault();
         if (!this.props.validPins.includes(event.target.value)) {
             console.log(`Login failed!!!`);
@@ -25,7 +25,7 @@ export class Login extends React.Component {
     }
 
     handleChangeEvent(event) {
-        console.log(`handleChangeEvent called with value: ${event.target.value}`);
+        //console.log(`handleChangeEvent called with value: ${event.target.value}`);
         const val = `${event.target.value}`;
         this.setState(() => ({pin: val}));
     }
