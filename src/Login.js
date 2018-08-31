@@ -2,6 +2,7 @@ import {Component} from 'react';
 import React from 'react';
 import util from 'util';
 import {Button} from './widgets/Button';
+import {Styles} from './styles/styles';
 
 export class Login extends React.Component {
 
@@ -33,15 +34,18 @@ export class Login extends React.Component {
     render() {
         console.log( `state2: ${util.inspect(this.state,{depth:2})}`);
         return (
-            <div className="flex flex-column">
-                <label htmlFor="pinEntry" className="mv1" >
-                   Enter your pin:
-                </label>
-                <input type="text" maxLength="4" onChange={this.handleChangeEvent} className="mv1"
-                       value={this.state.pin} id="pinEntry">
-                </input> 
-                <Button label="login" onClick={this.handleLoginEvent} value={this.state.pin} className="mv1"/>
-            </div>
+                <div style={Styles.BottomMenu}>
+                    <div style={Styles.MenuItem}>
+                        <label>Please Sign In:</label>
+                    </div>
+                    <div style={Styles.MenuItem}>
+                        <input type="text" placeholder="XXXX" maxLength="4" onChange={this.handleChangeEvent}
+                                   value={this.state.pin} id="pinEntry">
+                        </input>
+                        <Button onClick={this.handleLoginEvent} value={this.state.pin} label="Login"></Button>
+                    </div>
+                </div>
+
        );
    }
 }

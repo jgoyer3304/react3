@@ -2,6 +2,7 @@ import {Component} from 'react';
 import React from 'react';
 import util from 'util';
 import {Button} from './Button';
+import {Styles} from '../styles/styles';
 
 export class Amount extends React.Component {
 
@@ -36,16 +37,15 @@ export class Amount extends React.Component {
     }
 
     render() {
-        console.log( `state2: ${util.inspect(this.state,{depth:2})}`);
         return (
-            <div className="flex flex-column">
-                <label htmlFor="amtEntry" className="mv1" >
-                   Enter amount (xxxx.xx):
+            <div>
+                <label htmlFor="amtEntry">
+                   Enter amount {this.props.direction} (xxxx.xx):
                 </label>
-                <input type="text" maxLength="7" onChange={this.handleChangeEvent} className="mv1"
+                <input type="text" maxLength="7" onChange={this.handleChangeEvent}
                        value={this.state.amt} id="amtEntry">
                 </input> 
-                <Button label="submit" onClick={this.handleUpdateEvent} value={this.state.amt} className="mv1"/>
+                <Button label="submit" onClick={this.handleUpdateEvent} value={this.state.amt}/>
             </div>
            
        );

@@ -3,6 +3,7 @@ import React from 'react';
 import {Login} from './Login';
 import {ATM} from './ATM';
 import util from 'util';
+import {Styles} from './styles/styles';
 
 // Based on pin we select an account
 export class Bank extends React.Component {
@@ -43,20 +44,40 @@ export class Bank extends React.Component {
     // Should establish basic look and feel of bank app. If not logged in, render login
     // screen. Otherwise render ATM.
     render() {
+
         if (this.state.pin === undefined) {
             return (
-                <div className="flex flex-column mw-4 ba pa6 sans-serif bg-light-gray">
-                    <form>
-                        <Login pin={this.state} loginHandler={this.handleLoginEvent}
+                <div style={Styles.AtmScreen}>
+                    <form style={Styles.Box}>
+                        <fieldset style={Styles.Menu}>
+                            <legend>
+                                Bank ATM
+                            </legend>
+
+                            <div style={Styles.InnerScreen}>
+                            </div>
+                           
+                            <Login pin={this.state} loginHandler={this.handleLoginEvent}
                                validPins={Object.keys(this.acctMap)}/>
+                        </fieldset>
                     </form>
                 </div>
             );
         } else {
             return (
-                <div className="flex flex-column mw-4 ba pa6 sans-serif bg-light-gray">
-                    <ATM currentAccount={this.acctMap[this.state.pin]} handleTransaction={this.commitTransaction}
-                        propagateLogout={this.handleLogoutEvent}/>
+                <div style={Styles.AtmScreen}>
+                    <div style={Styles.Box}>
+                        <form style={Styles.Box}>
+                            <fieldset style={Styles.Menu}>
+                                <legend>
+                                    Bank ATM
+                                </legend>
+
+                                <ATM currentAccount={this.acctMap[this.state.pin]} handleTransaction={this.commitTransaction}
+                                    propagateLogout={this.handleLogoutEvent}/>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             );
         }

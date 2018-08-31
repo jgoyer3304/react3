@@ -4,6 +4,7 @@ import {Button} from './widgets/Button';
 import {Amount} from './widgets/Amount';
 import {Status} from './widgets/saveStatus';
 import {AlertBox} from './widgets/AlertBox';
+import {Styles} from './styles/styles';
 import util from 'util';
 
 export class ATM extends React.Component {
@@ -89,33 +90,30 @@ export class ATM extends React.Component {
     
     render() {
         const navButtons = (
-            <form className="flex flex-column pa4 sans-serif">
-                <div className="w-25 pa1 ml2">
+            <div style={Styles.BottomMenu}>
+                <div style={Styles.MenuItem}>
                     <Button label="logout" onClick={this.handleLogoutEvent} value=''/>
                 </div>
-                <div className="w-25 pa1 ml2">
+                <div style={Styles.MenuItem}>
                     <Button label="deposit" onClick={this.handleButtonClickEvent} value='d'/>
                 </div>
-                <div className="w-25 pa1 ml2">
+                <div style={Styles.MenuItem}>
                     <Button label="withdraw" onClick={this.handleButtonClickEvent} value='w'/>
                 </div>
-                <div className="w-25 pa1 ml2">
+                <div style={Styles.MenuItem}>
                     <Button label="balance" onClick={this.handleButtonClickEvent} value='q'/>
                 </div>
-            </form>);
+            </div>
+            );
 
         const depositButton = (
-            <form className="flex flex-column pa4 sans-serif">
-                <Amount updateHandler={this.handleDepositEvent}/>
-            </form>
+            <Amount updateHandler={this.handleDepositEvent} direction={'to deposit'}/>
         );
 
         const withdrawalButton = (
-            <form className="flex flex-column pa4 sans-serif">
-                <Amount updateHandler={this.handleWithdrawalEvent}/>
-            </form>
+            <Amount updateHandler={this.handleWithdrawalEvent} direction={'to withdraw'}/>
         );
-
+        
         let buttonForm = navButtons;
         let buttonElement = null;
 
@@ -126,16 +124,20 @@ export class ATM extends React.Component {
             buttonForm = navButtons;
             buttonElement = withdrawalButton;
         } else if (this.state.transactionType == 'q') {
-            const msg = `Balance: ${Number(this.state.currentAccount.balance).toFixed(2)}`;
-            buttonElement = <input className="flex flex-column pa4 sans-serif" readOnly value={msg}/>;
+            const msg = `${Number(this.state.currentAccount.balance).toFixed(2)}`;
+            buttonElement = <div><label htmlFor="blnc">Balance: </label><input id="blnc" readOnly value={msg}/></div>;
         } else if (this.state.transactionType == 's' && this.state.transactionStatus != undefined) {
             buttonElement = <AlertBox status={this.state.transactionStatus}/>;
         }
 
         return (
-            <div className="flex flex-column">
-                {buttonForm}
-                {buttonElement}
+            <div>
+                <div style={Styles.InnerScreen}>
+                    {buttonElement}
+                </div>
+                <div>
+                    {buttonForm}
+                </div>
             </div>
         );
     }
