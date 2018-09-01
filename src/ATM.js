@@ -2,7 +2,7 @@ import {Component} from 'react';
 import React from 'react';
 import {Button} from './widgets/Button';
 import {Amount} from './widgets/Amount';
-import {Status} from './widgets/saveStatus';
+import {Status} from './widgets/Status';
 import {AlertBox} from './widgets/AlertBox';
 import {Styles} from './styles/styles';
 import util from 'util';
@@ -34,7 +34,7 @@ export class ATM extends React.Component {
     saveState(prevState, amount, isWithdrawal) {
         {
             const bal = isWithdrawal ? prevState.currentAccount.balance - amount : prevState.currentAccount.balance + amount;
-            const tod = isWithdrawal ? prevState.today + amount : prevState.today;
+            const tod = isWithdrawal ? prevState.currentAccount.today + amount : prevState.currentAccount.today;
             let acct = ({
                 currentAccount: {
                     balance: bal,
@@ -57,9 +57,10 @@ export class ATM extends React.Component {
 
     handleWithdrawalEvent(amount) {
         console.log(`handle withdrawal event called with amount: ${amount}`);
+        
         if (this.state.currentAccount.today + amount > this.state.currentAccount.limit) {
             this.resetTransactionType();
-            this.setTransactionState(Status.FAILURE);
+            this.setTransactionState(Status.FAILURE_LIMIT);
             return;
         }
 

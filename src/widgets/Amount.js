@@ -15,7 +15,7 @@ export class Amount extends React.Component {
     }
 
     handleUpdateEvent(event) {
-        console.log(`handleUpdateEvent called with value: ${event.target.value}`);
+        //console.log(`handleUpdateEvent called with value: ${event.target.value}`);
 
         event.preventDefault();
         const val = this.state.amt;
@@ -29,9 +29,9 @@ export class Amount extends React.Component {
     }
 
     handleChangeEvent(event) {
-        console.log(`handleChangeEvent called with value: ${event.target.value}`);
+        //console.log(`handleChangeEvent called with value: ${event.target.value}`);
         const val = `${event.target.value}`;
-        console.log(`handleChangeEvent called with state: ${util.inspect(this.state,{depth:2})}`);
+        //console.log(`handleChangeEvent called with state: ${util.inspect(this.state,{depth:2})}`);
         
         this.setState(() => ({amt: val}));
     }

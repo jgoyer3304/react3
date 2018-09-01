@@ -3,5 +3,7 @@ export const Status = {
     SUCCESS: 'SUCCESS',
     FAILURE: 'FAILURE',
     WAITING: 'WAITING',
-    IDLE: 'IDLE'
+    IDLE: 'IDLE',
+    FAILURE_LIMIT: 'FAILURE_LIMIT',
+    LOGIN_FAILED: 'LOGIN_FAILED'
 };

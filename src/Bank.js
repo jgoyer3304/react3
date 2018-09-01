@@ -17,7 +17,7 @@ export class Bank extends React.Component {
             '3333' : {balance: 300.00, limit: 50.00, today: 0.00}
         };
 
-        this.state = { pin: undefined };
+        this.state = { pin: undefined, loginStatus: '' };
 
         this.handleLoginEvent = this.handleLoginEvent.bind(this);
         this.handleLogoutEvent = this.handleLogoutEvent.bind(this);
@@ -53,9 +53,6 @@ export class Bank extends React.Component {
                             <legend>
                                 Bank ATM
                             </legend>
-
-                            <div style={Styles.InnerScreen}>
-                            </div>
                            
                             <Login pin={this.state} loginHandler={this.handleLoginEvent}
                                validPins={Object.keys(this.acctMap)}/>
